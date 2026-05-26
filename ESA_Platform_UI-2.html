@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESA Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+:root{
+  --p50:#EEEDFE;--p100:#CECBF6;--p200:#AFA9EC;--p300:#7F77DD;
+  --p500:#534AB7;--p600:#3C3489;--p900:#26215C;
+  --s:#16a34a;--w:#d97706;--d:#dc2626;--i:#185FA5;
+  --bg:#ffffff;--bg2:#f8f7ff;--t1:#1a1523;--t2:#52525b;--t3:#a1a1aa;
+  --bd:#e4e4e7;--bd2:#d4d4d8;--r:8px;--rl:12px;--sw:210px;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Inter',sans-serif}
+body{background:#f1f0fb;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.app{display:flex;height:700px;width:1100px;max-width:100%;border-radius:var(--rl);overflow:hidden;box-shadow:0 8px 40px rgba(83,74,183,.18),0 2px 8px rgba(0,0,0,.08);border:1px solid var(--p200)}
+.sb{width:var(--sw);background:var(--p900);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.sb::-webkit-scrollbar{width:3px}.sb::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
+.sb-logo{padding:18px 14px 10px;display:flex;align-items:center;gap:9px}
+.sb-mark{width:32px;height:32px;background:var(--p300);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-title{color:#fff;font-size:13px;font-weight:600;line-height:1.2}
+.sb-sub{color:var(--p200);font-size:9px;letter-spacing:.07em;text-transform:uppercase;margin-top:1px}
+.role-chip{margin:8px 10px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);border-radius:9px;padding:8px 10px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:background .15s}
+.role-chip:hover{background:rgba(255,255,255,.14)}
+.rav{width:28px;height:28px;border-radius:50%;background:var(--p300);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;flex-shrink:0}
+.rname{font-size:11px;font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.rentity{font-size:9px;color:var(--p200)}
+.ns{padding:4px 10px;margin-top:8px}
+.nlbl{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--p200);margin-bottom:5px}
+.ni{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:7px;cursor:pointer;color:var(--p100);font-size:12px;margin-bottom:2px;transition:background .12s;position:relative}
+.ni:hover{background:rgba(255,255,255,.08);color:#fff}
+.ni.act{background:rgba(255,255,255,.15);color:#fff;font-weight:500}
+.ni.act::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:3px;background:var(--p200);border-radius:0 2px 2px 0}
+.ni .ti{font-size:15px;width:17px;text-align:center;flex-shrink:0}
+.nbadge{margin-left:auto;background:var(--p500);color:#fff;font-size:9px;font-weight:600;padding:1px 6px;border-radius:10px}
+.nbadge.nd{background:var(--d)}
+.bal{margin:auto 10px 12px;background:var(--p600);border-radius:9px;padding:12px;color:#fff;display:none}
+.bal-lbl{font-size:9px;opacity:.65;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.bal-val{font-size:22px;font-weight:600;letter-spacing:-.5px}
+.bal-sub{font-size:9px;opacity:.55;margin-top:2px}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{background:var(--bg);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 20px;height:54px;gap:12px;flex-shrink:0}
+.bc{font-size:12px;color:var(--t2);display:flex;align-items:center;gap:5px;white-space:nowrap}
+.bc strong{color:var(--t1);font-weight:500}
+.srch{flex:1;max-width:300px;position:relative}
+.srch input{width:100%;background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:7px 12px 7px 32px;font-size:12px;color:var(--t1);outline:none;font-family:'Inter',sans-serif}
+.srch input:focus{border-color:var(--p300);box-shadow:0 0 0 3px rgba(127,119,221,.15)}
+.srch .ti{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--t3)}
+.ta{display:flex;align-items:center;gap:8px;margin-left:auto}
+.ibt{width:34px;height:34px;border-radius:var(--r);border:1px solid var(--bd);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:all .12s;position:relative}
+.ibt:hover{background:var(--bg2);border-color:var(--p300)}
+.ndot{position:absolute;top:6px;right:6px;width:7px;height:7px;background:var(--d);border-radius:50%;border:2px solid var(--bg)}
+.upill{display:flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:5px 10px 5px 6px;cursor:pointer;transition:all .12s}
+.upill:hover{background:var(--p50);border-color:var(--p300)}
+.uav{width:24px;height:24px;border-radius:50%;background:var(--p300);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#fff}
+.uname{font-size:12px;font-weight:500;color:var(--t1)}
+.content{flex:1;overflow-y:auto;padding:20px;background:var(--bg2)}
+.content::-webkit-scrollbar{width:5px}.content::-webkit-scrollbar-thumb{background:var(--p200);border-radius:3px}
+.ph{margin-bottom:16px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ptitle{font-size:20px;font-weight:600;color:var(--t1);letter-spacing:-.3px}
+.psub{font-size:12px;color:var(--t2);margin-top:3px;line-height:1.5}
+.pbtn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:var(--r);font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--bd);transition:all .12s;background:var(--bg);color:var(--t1);font-family:'Inter',sans-serif}
+.pbtn:hover{background:var(--bg2)}
+.pbp{background:var(--p600);color:#fff;border-color:var(--p600)}.pbp:hover{background:var(--p900)}
+.pbg{color:var(--p600);border-color:var(--p300)}.pbg:hover{background:var(--p50)}
+.phbtns{display:flex;gap:8px;flex-wrap:wrap}
+.kgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.kcard{background:var(--bg);border-radius:var(--rl);border:1px solid var(--bd);padding:14px;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(83,74,183,.06)}
+.kcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--rl) var(--rl) 0 0}
+.kc-p::before{background:var(--p500)}.kc-g::before{background:var(--s)}.kc-a::before{background:var(--w)}.kc-r::before{background:var(--d)}.kc-b::before{background:var(--i)}
+.klbl{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
+.kval{font-size:26px;font-weight:600;color:var(--t1);letter-spacing:-.5px;line-height:1}
+.ksub{font-size:10px;color:var(--t3);margin-top:4px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.card{background:var(--bg);border-radius:var(--rl);border:1px solid var(--bd);overflow:hidden;margin-bottom:12px;box-shadow:0 1px 4px rgba(83,74,183,.06)}
+.ch{padding:12px 16px 10px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.ct{font-size:13px;font-weight:600;color:var(--t1)}
+.cb{padding:14px 16px}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{text-align:left;padding:8px 12px;background:var(--bg2);color:var(--t3);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--bd);white-space:nowrap}
+.tbl td{padding:9px 12px;border-bottom:1px solid #f4f4f5;color:var(--t2);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--p50)}
+.tid{font-family:monospace;font-size:11px;color:var(--p500);font-weight:600}
+.tname{color:var(--t1);font-weight:500}
+.tamt{font-weight:600;color:var(--t1)}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;white-space:nowrap}
+.pill::before{content:'';width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.pg{background:#dcfce7;color:#15803d}.pg::before{background:#15803d}
+.pa{background:#fef3c7;color:#b45309}.pa::before{background:#b45309}
+.pr{background:#fee2e2;color:#b91c1c}.pr::before{background:#b91c1c}
+.pb2{background:var(--p50);color:var(--p600)}.pb2::before{background:var(--p500)}
+.pi{background:#dbeafe;color:#1d4ed8}.pi::before{background:#1d4ed8}
+.pgy{background:#f4f4f5;color:var(--t2)}.pgy::before{background:var(--t3)}
+.pr-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.pr-lbl{font-size:11px;color:var(--t2);width:100px;flex-shrink:0;text-align:right}
+.pr-track{flex:1;height:7px;background:var(--p50);border-radius:4px;overflow:hidden;border:1px solid var(--p100)}
+.pr-fill{height:100%;border-radius:4px;background:var(--p500)}
+.pr-val{font-size:11px;font-weight:600;color:var(--t1);min-width:36px;text-align:right}
+.act-item{display:flex;gap:11px;padding:9px 0;border-bottom:1px solid #f4f4f5;align-items:flex-start}
+.act-item:last-child{border-bottom:none}
+.adot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.act-t{font-size:12px;color:var(--t1);font-weight:500;margin-bottom:2px}
+.act-s{font-size:11px;color:var(--t3)}
+.act-tm{font-size:10px;color:var(--t3);flex-shrink:0;margin-top:2px}
+.wallet-hero{background:linear-gradient(135deg,var(--p900) 0%,var(--p600) 100%);border-radius:var(--rl);padding:22px;color:#fff;margin-bottom:14px;border:1px solid var(--p600)}
+.wlbl{font-size:10px;opacity:.65;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+.wbal{font-size:38px;font-weight:700;letter-spacing:-2px;line-height:1}
+.wmeta{display:flex;gap:20px;margin-top:12px;flex-wrap:wrap}
+.wmi{font-size:11px;opacity:.65}
+.wmi strong{display:block;font-size:13px;opacity:1;font-weight:600;margin-bottom:1px}
+.wi-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.wi-item:last-child{border-bottom:none}
+.wi-img{width:38px;height:38px;border-radius:9px;background:var(--p50);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px}
+.wi-info{flex:1;min-width:0}
+.wi-name{font-size:12px;font-weight:500;color:var(--t1);margin-bottom:2px}
+.wi-ven{font-size:10px;color:var(--t3)}
+.wi-price{font-size:13px;font-weight:600;color:var(--p500);flex-shrink:0}
+.wi-acts{display:flex;gap:6px}
+.wib{padding:4px 11px;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .12s}
+.wib-a{background:var(--p600);color:#fff}.wib-a:hover{background:var(--p900)}
+.wib-r{background:#f4f4f5;color:var(--t2);border:1px solid var(--bd)}.wib-r:hover{background:#e4e4e7}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.pcard{border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden;background:var(--bg);cursor:pointer;transition:all .15s;box-shadow:0 1px 3px rgba(83,74,183,.06)}
+.pcard:hover{border-color:var(--p300);box-shadow:0 4px 16px rgba(83,74,183,.15);transform:translateY(-2px)}
+.pimg{height:80px;background:linear-gradient(135deg,var(--p50),var(--p100));display:flex;align-items:center;justify-content:center;font-size:32px}
+.pbdy{padding:10px 12px}
+.pname{font-size:11px;font-weight:600;color:var(--t1);margin-bottom:2px;line-height:1.3}
+.pven{font-size:10px;color:var(--t3);margin-bottom:7px}
+.pprice{font-size:14px;font-weight:700;color:var(--p500)}
+.claim-row{border:1px solid var(--bd);border-radius:var(--r);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;background:var(--bg);transition:border-color .12s;cursor:pointer}
+.claim-row:hover{border-color:var(--p300)}
+.claim-ico{width:36px;height:36px;border-radius:9px;background:var(--p50);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.claim-info{flex:1;min-width:0}
+.claim-name{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:3px}
+.claim-meta{font-size:11px;color:var(--t3)}
+.claim-amt{font-size:14px;font-weight:700;color:var(--t1);flex-shrink:0}
+.modal-overlay{position:fixed;inset:0;background:rgba(38,33,92,.35);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:100}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg);border-radius:var(--rl);width:460px;max-width:90vw;border:1px solid var(--bd);overflow:hidden;box-shadow:0 20px 60px rgba(38,33,92,.3)}
+.mhead{background:linear-gradient(135deg,var(--p900),var(--p600));padding:18px 22px;color:#fff}
+.mhead h3{font-size:16px;font-weight:600;margin-bottom:3px}
+.mhead p{font-size:12px;opacity:.65}
+.mbody{padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:8px;max-height:320px;overflow-y:auto}
+.ropt{border:1px solid var(--bd);border-radius:var(--r);padding:12px;cursor:pointer;transition:all .15s}
+.ropt:hover{border-color:var(--p400);background:var(--p50)}
+.ropt.sel{border-color:var(--p500);background:var(--p50);border-width:2px}
+.ropt-icon{margin-bottom:7px}
+.ropt-name{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:2px}
+.ropt-ent{font-size:10px;color:var(--t3)}
+.flow-strip{display:flex;align-items:center;flex-wrap:wrap;gap:5px;padding:6px 0}
+.fn{background:var(--p50);border:1px solid var(--p200);border-radius:6px;padding:4px 10px;font-size:10px;font-weight:500;color:var(--p600);white-space:nowrap}
+.fn.fa{background:var(--p600);border-color:var(--p600);color:#fff;font-weight:600}
+.fn.fd{background:var(--p100);border-color:var(--p300);color:var(--p600)}
+.farr{color:var(--p300);font-size:12px;display:flex;align-items:center}
+.nb-panel{position:fixed;right:40px;top:74px;width:280px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rl);z-index:50;box-shadow:0 8px 30px rgba(83,74,183,.15);display:none}
+.nb-panel.op{display:block}
+.nb-head{padding:10px 14px;border-bottom:1px solid var(--bd);font-size:12px;font-weight:600;color:var(--t1);display:flex;justify-content:space-between;align-items:center}
+.nb-item{padding:10px 14px;border-bottom:1px solid #f4f4f5;cursor:pointer;transition:background .12s}
+.nb-item:hover{background:var(--p50)}
+.nb-item:last-child{border-bottom:none}
+.nb-t{font-size:11px;font-weight:600;color:var(--t1);margin-bottom:3px}
+.nb-d{font-size:10px;color:var(--t3);line-height:1.4}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeUp .2s ease}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <nav class="sb" id="sb">
+    <div class="sb-logo">
+      <div class="sb-mark"><i class="ti ti-school" style="font-size:17px;color:#fff"></i></div>
+      <div><div class="sb-title">ESA Platform</div><div class="sb-sub">Education Savings</div></div>
+    </div>
+    <div class="role-chip" onclick="openModal()">
+      <div class="rav" id="sAv">SJ</div>
+      <div style="flex:1;min-width:0"><div class="rname" id="sName">Sarah Johnson</div><div class="rentity" id="sEnt">Parent · Wallet Holder</div></div>
+      <i class="ti ti-selector" style="font-size:13px;color:rgba(255,255,255,.5)"></i>
+    </div>
+    <div id="navMenu"></div>
+    <div class="bal" id="bal">
+      <div class="bal-lbl">ESA Balance</div>
+      <div class="bal-val">$4,820</div>
+      <div class="bal-sub">$2,180 encumbered</div>
+    </div>
+  </nav>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="bc"><i class="ti ti-home" style="font-size:13px"></i><i class="ti ti-chevron-right" style="font-size:11px;color:var(--t3)"></i><strong id="bpg">Dashboard</strong></div>
+      <div class="srch"><i class="ti ti-search"></i><input type="text" placeholder="Search transactions, vendors, reports…"></div>
+      <div class="ta">
+        <div class="ibt" onclick="toggleNotif()" style="position:relative"><i class="ti ti-bell"></i><div class="ndot"></div></div>
+        <div class="ibt"><i class="ti ti-settings"></i></div>
+        <div class="upill" onclick="openModal()">
+          <div class="uav" id="tAv">SJ</div>
+          <div class="uname" id="tName">Sarah J.</div>
+        </div>
+      </div>
+    </header>
+    <main class="content" id="content"></main>
+  </div>
+</div>
+
+<!-- Notifications -->
+<div class="nb-panel" id="nbPanel">
+  <div class="nb-head">Notifications <span style="font-size:10px;color:var(--p500);font-weight:400;cursor:pointer">Mark all read</span></div>
+  <div class="nb-item"><div class="nb-t"><i class="ti ti-check" style="color:var(--s)"></i> Claim approved — #CLM-8821</div><div class="nb-d">Reimbursement of $234 approved and funds released · May 25</div></div>
+  <div class="nb-item"><div class="nb-t"><i class="ti ti-package" style="color:var(--p500)"></i> Order dispatched — #ORD-4820</div><div class="nb-d">Math curriculum bundle shipped · TRK-884921 · May 24</div></div>
+  <div class="nb-item"><div class="nb-t"><i class="ti ti-heart" style="color:var(--p500)"></i> Wishlist item approved</div><div class="nb-d">Science Lab Kit approved and added to cart · May 23</div></div>
+  <div class="nb-item"><div class="nb-t"><i class="ti ti-alert-triangle" style="color:var(--w)"></i> Claim needs attention</div><div class="nb-d">Low confidence score (71%) on #CLM-8819 · Please resubmit</div></div>
+</div>
+
+<!-- Role Switcher Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeMO(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="mhead"><h3>Switch role</h3><p>Select your role to load the relevant dashboard</p></div>
+    <div class="mbody" id="roleGrid"></div>
+  </div>
+</div>
+
+<script>
+const ROLES=[
+  {id:'parent',icon:'ti-home',init:'SJ',name:'Sarah Johnson',ent:'Parent · Wallet Holder',bal:true},
+  {id:'superadmin',icon:'ti-crown',init:'PM',name:'Priya Menon',ent:'Super Program Admin',bal:false},
+  {id:'grants',icon:'ti-cash',init:'RD',name:'Robert Davis',ent:'Grants Admin · State',bal:false},
+  {id:'claims',icon:'ti-clipboard-list',init:'AO',name:'Amara Osei',ent:'Claims Reviewer · State',bal:false},
+  {id:'compliance',icon:'ti-shield-check',init:'JW',name:'James Whitfield',ent:'Compliance Auditor',bal:false},
+  {id:'vendormgr',icon:'ti-check',init:'LN',name:'Lisa Nakamura',ent:'Vendor Approval Manager',bal:false},
+  {id:'platform',icon:'ti-server',init:'DT',name:'Dev Team',ent:'Platform Admin',bal:false},
+  {id:'vendor',icon:'ti-package',init:'BA',name:'Bright Academy',ent:'Vendor Account Owner',bal:false},
+  {id:'csr',icon:'ti-headset',init:'MR',name:'Marco Rivera',ent:'Customer Support Rep',bal:false},
+];
+const NAVS={
+  parent:[{s:'My Account',items:[{i:'ti-layout-dashboard',l:'Dashboard',p:'dash'},{i:'ti-wallet',l:'My Wallet',p:'wallet'},{i:'ti-building-store',l:'Marketplace',p:'market'},{i:'ti-file-invoice',l:'Claims',p:'claims',b:'2'},{i:'ti-heart',l:'Wishlist',p:'wishlist',b:'5'},{i:'ti-package',l:'Orders',p:'orders'}]},{s:'Account',items:[{i:'ti-user',l:'Profile',p:'profile'},{i:'ti-help',l:'Help & FAQ',p:'faq'}]}],
+  superadmin:[{s:'Platform',items:[{i:'ti-layout-dashboard',l:'Dashboard',p:'dash'},{i:'ti-map',l:'All States',p:'states'},{i:'ti-users',l:'All Users',p:'users'},{i:'ti-bolt',l:'Overrides',p:'overrides',b:'7',bd:true}]},{s:'Programs',items:[{i:'ti-settings',l:'Program Config',p:'config'},{i:'ti-chart-line',l:'Analytics',p:'analytics'},{i:'ti-lock',l:'Audit Logs',p:'audit'},{i:'ti-report',l:'Reports',p:'reports'}]}],
+  grants:[{s:'Grants',items:[{i:'ti-layout-dashboard',l:'Dashboard',p:'dash'},{i:'ti-clock',l:'Pending Queue',p:'queue',b:'14',bd:true},{i:'ti-search',l:'Manual Audits',p:'audits',b:'8'},{i:'ti-cash',l:'Disbursements',p:'disbursements'}]},{s:'Reports',items:[{i:'ti-report',l:'Approval Log',p:'log'},{i:'ti-chart-bar',l:'Encumbrance',p:'enc'}]}],
+  claims:[{s:'Claims',items:[{i:'ti-layout-dashboard',l:'Dashboard',p:'dash'},{i:'ti-inbox',l:'My Queue',p:'queue',b:'47',bd:true},{i:'ti-alert-triangle',l:'Fraud Flags',p:'fraud',b:'3',bd:true},{i:'ti-scale',l:'Disputes',p:'disputes',b:'5'},{i:'ti-check',l:'Approved',p:'approved'}]},{s:'Tools',items:[{i:'ti-cpu',l:'AI OCR Results',p:'ocr'},{i:'ti-report',l:'Reports',p:'reports'}]}],
+  compliance:[{s:'Audit',items:[{i:'ti-layout-dashboard',l:'Dashboard',p:'dash'},{i:'ti-search',l:'Transaction Audit',p:'audit'},{i:'ti-alert-triangle',l:'Flags',p:'flags',b:'23',bd:true},{i:'ti-tag',l:'Category Report',p:'cat'}]},{s:'Reports',items:[{i:'ti-report',l:'Compliance Summary',p:'comp'},{i:'ti-download',l:'Export',p:'exp'}]}],
+  vendormgr:[{s:'Vendors',items:[{i:'ti-layout-dashboard',l:'Dashboard',p:'dash'},{i:'ti-inbox',l:'Applications',p:'apps',b:'18'},{i:'ti-check',l:'Approved',p:'approved'},{i:'ti-x',l:'Rejected',p:'rejected'}]},{s:'Reports',items:[{i:'ti-id',l:'KYC Summary',p:'kyc'},{i:'ti-report',l:'Reports',p:'reports'}]}],
+  platform:[{s:'System',items:[{i:'ti-layout-dashboard',l:'Dashboard',p:'dash'},{i:'ti-activity',l:'Health Monitor',p:'health'},{i:'ti-users',l:'User Management',p:'users'},{i:'ti-flag',l:'Feature Flags',p:'flags'}]},{s:'Onboarding',items:[{i:'ti-id',l:'KYC Review',p:'kyc',b:'12'},{i:'ti-mail',l:'Activation Status',p:'activation'},{i:'ti-lock',l:'Security Log',p:'security',b:'2',bd:true}]}],
+  vendor:[{s:'Business',items:[{i:'ti-layout-dashboard',l:'Dashboard',p:'dash'},{i:'ti-package',l:'My Catalog',p:'catalog'},{i:'ti-shopping-cart',l:'Incoming Orders',p:'orders',b:'5'},{i:'ti-file-invoice',l:'Invoices',p:'invoices'},{i:'ti-credit-card',l:'Payments',p:'payments'}]},{s:'Account',items:[{i:'ti-users',l:'Sub-Users',p:'users'},{i:'ti-report',l:'Reports',p:'reports'}]}],
+  csr:[{s:'Support',items:[{i:'ti-layout-dashboard',l:'Dashboard',p:'dash'},{i:'ti-ticket',l:'Ticket Queue',p:'tickets',b:'12'},{i:'ti-arrow-up-circle',l:'Escalated',p:'escalated',b:'3',bd:true},{i:'ti-key',l:'Access Resets',p:'resets',b:'5'}]},{s:'Knowledge',items:[{i:'ti-help',l:'FAQ Manager',p:'faq'},{i:'ti-report',l:'Reports',p:'reports'}]}],
+};
+
+let role='parent', nbO=false;
+
+function init(){renderRoleGrid();applyRole('parent')}
+
+function applyRole(rid){
+  role=rid;
+  const r=ROLES.find(x=>x.id===rid);
+  document.getElementById('sAv').textContent=r.init;
+  document.getElementById('sName').textContent=r.name;
+  document.getElementById('sEnt').textContent=r.ent;
+  document.getElementById('tAv').textContent=r.init;
+  document.getElementById('tName').textContent=r.name.split(' ')[0]+' '+r.name.split(' ')[1]?.[0]+'.';
+  document.getElementById('bal').style.display=r.bal?'block':'none';
+  renderNav(rid); navigate('dash');
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+function renderNav(rid){
+  const secs=NAVS[rid]||[];
+  document.getElementById('navMenu').innerHTML=secs.map(sec=>`
+    <div class="ns"><div class="nlbl">${sec.s}</div>
+    ${sec.items.map(it=>`<div class="ni" onclick="navigate('${it.p}')" data-p="${it.p}">
+      <i class="ti ${it.i}"></i>${it.l}
+      ${it.b?`<span class="nbadge${it.bd?' nd':''}">${it.b}</span>`:''}
+    </div>`).join('')}
+    </div>`).join('');
+}
+
+function navigate(pg){
+  document.querySelectorAll('.ni').forEach(el=>el.classList.toggle('act',el.dataset.p===pg));
+  const names={dash:'Dashboard',wallet:'My Wallet',market:'Marketplace',claims:'Claims & Reimbursements',wishlist:'Student Wishlist',orders:'Orders',queue:'Pending Queue',fraud:'Fraud Flags',disputes:'Disputes',approved:'Approved',audit:'Audit Trail',flags:'Flags',apps:'Applications',catalog:'My Catalog',invoices:'Invoices',tickets:'Ticket Queue',kyc:'KYC Review',users:'Users',analytics:'Analytics',config:'Program Config',reports:'Reports',profile:'Profile',faq:'Help & FAQ',states:'All States',disbursements:'Disbursements',enc:'Encumbrance',log:'Approval Log',health:'Health Monitor',ocr:'AI OCR Results',activation:'Activation Status',security:'Security Log',cat:'Category Report',comp:'Compliance Summary',exp:'Export',escalated:'Escalated',resets:'Access Resets',payments:'Payments'};
+  document.getElementById('bpg').textContent=names[pg]||pg;
+  document.getElementById('content').innerHTML='<div class="fade-in">'+render(role,pg)+'</div>';
+  nbO=false; document.getElementById('nbPanel').classList.remove('op');
+}
+
+function kpi(label,val,sub,cls='kc-p'){return`<div class="kcard ${cls}"><div class="klbl">${label}</div><div class="kval">${val}</div><div class="ksub">${sub}</div></div>`}
+function pill(t,c){return`<span class="pill ${c}">${t}</span>`}
+function prow(label,pct,val,color='var(--p500)'){return`<div class="pr-row"><div class="pr-lbl">${label}</div><div class="pr-track"><div class="pr-fill" style="width:${pct}%;background:${color}"></div></div><div class="pr-val">${val}</div></div>`}
+function act(title,sub,color,time=''){return`<div class="act-item"><div class="adot" style="background:${color}"></div><div style="flex:1"><div class="act-t">${title}</div><div class="act-s">${sub}</div></div>${time?`<div class="act-tm">${time}</div>`:''}</div>`}
+
+function render(r,p){
+  if(r==='parent')return renderParent(p);
+  if(r==='superadmin')return renderSuperAdmin(p);
+  if(r==='grants')return renderGrants(p);
+  if(r==='claims')return renderClaims(p);
+  if(r==='compliance')return renderCompliance(p);
+  if(r==='vendormgr')return renderVendorMgr(p);
+  if(r==='platform')return renderPlatform(p);
+  if(r==='vendor')return renderVendor(p);
+  if(r==='csr')return renderCSR(p);
+  return fallback(p);
+}
+
+function renderParent(p){
+  if(p==='dash')return`
+    <div class="ph"><div><div class="ptitle">Good morning, Sarah 👋</div><div class="psub">Emma's ESA account — May 25, 2026</div></div>
+    <div class="phbtns"><button class="pbtn pbg" onclick="navigate('claims')"><i class="ti ti-plus"></i>Submit claim</button><button class="pbtn pbp" onclick="navigate('market')"><i class="ti ti-building-store"></i>Marketplace</button></div></div>
+    <div class="wallet-hero"><div class="wlbl">ESA Wallet Balance</div><div class="wbal">$4,820.00</div>
+    <div class="wmeta"><div class="wmi"><strong>$7,000.00</strong>Spent YTD</div><div class="wmi"><strong>$2,180.00</strong>Encumbered</div><div class="wmi"><strong>$12,000</strong>2026 Allocation</div><div class="wmi"><strong>3</strong>Orders In-Transit</div></div></div>
+    <div class="kgrid">${kpi('Claims pending','2','⏳ Awaiting review','kc-a')}${kpi('Wishlist items','5','Needs your approval','kc-p')}${kpi('Active orders','3','📦 In transit','kc-g')}${kpi('Budget used','58%','$7K of $12K','kc-b')}</div>
+    <div class="g2">
+      <div class="card"><div class="ch"><div class="ct">Spending by category</div><span onclick="navigate('wallet')" style="font-size:11px;color:var(--p500);cursor:pointer">View all →</span></div><div class="cb">
+        ${prow('Curriculum',68,'$2,800')}${prow('Tutoring',44,'$1,800','var(--p600)')}${prow('Therapy',29,'$1,200','var(--p900)')}${prow('Technology',15,'$600','#7F77DD')}${prow('Books',10,'$400','var(--i)')}
+      </div></div>
+      <div class="card"><div class="ch"><div class="ct">Recent activity</div></div><div class="cb" style="padding:8px 14px">
+        ${act('Claim approved','Reimbursement $234 released','var(--s)','2h ago')}
+        ${act('Order shipped','Math curriculum — TRK884921','var(--p500)','May 24')}
+        ${act('Claim submitted','Science workbooks $95 — pending','var(--w)','May 23')}
+        ${act('Purchase blocked','Laptop stand — unapproved category','var(--d)','May 22')}
+        ${act('Therapy paid','Spectrum Therapy $600 — DirectPay','var(--s)','May 20')}
+      </div></div>
+    </div>`;
+  if(p==='wallet')return`
+    <div class="ph"><div><div class="ptitle">My Wallet</div><div class="psub">ESA balance and full transaction history</div></div><button class="pbtn pbg"><i class="ti ti-download"></i>Export CSV</button></div>
+    <div class="wallet-hero"><div class="wlbl">Available Balance</div><div class="wbal">$4,820.00</div>
+    <div class="wmeta"><div class="wmi"><strong>$12,000</strong>2026 Allocation</div><div class="wmi"><strong>$7,000</strong>Spent YTD</div><div class="wmi"><strong>$2,180</strong>Encumbered</div><div class="wmi"><strong>Alabama</strong>State Program</div></div></div>
+    <div class="card"><div class="ch"><div class="ct">Transaction history</div></div>
+    <table class="tbl"><thead><tr><th>Date</th><th>Description</th><th>Vendor</th><th>Category</th><th>Amount</th><th>Status</th></tr></thead><tbody>
+    ${[['May 25','Math Curriculum Bundle','Bright Academy','Curriculum','-$280','Confirmed','pg'],['May 24','Tutoring — May Sessions','Reed Tutors','Tutoring','-$450','Paid','pg'],['May 23','Science Workbooks x3','BookDepot','Curriculum','-$95','Pending','pa'],['May 22','Laptop Stand','TechMart','Electronics','—','Blocked','pr'],['May 20','OT Therapy Session','Spectrum Therapy','Therapy','-$600','Paid','pg'],['May 15','Art Supply Kit','CreativeKids','Elective','-$78','Confirmed','pg']].map(r=>`<tr><td>${r[0]}</td><td class="tname">${r[1]}</td><td>${r[2]}</td><td>${pill(r[3],'pb2')}</td><td class="tamt">${r[4]}</td><td>${pill(r[5],r[6])}</td></tr>`).join('')}
+    </tbody></table></div>`;
+  if(p==='wishlist')return`
+    <div class="ph"><div><div class="ptitle">Student Wishlist</div><div class="psub">Emma added 5 items — approve to add to cart</div></div></div>
+    <div class="card"><div class="ch"><div class="ct">⏳ Pending your approval (5)</div><span style="font-size:11px;color:var(--t3)">30-day timer started May 10</span></div><div class="cb" style="padding:8px 14px">
+    ${[{e:'📐',n:'Geometry Set & Compass Kit',v:'MathWorld Supplies',p:'$34.99'},{e:'🔬',n:'Science Lab Kit — Grade 7',v:'ScienceHub',p:'$89.99'},{e:'📚',n:'Harry Potter Box Set',v:'BookDepot',p:'$49.99',w:'May not qualify — non-curriculum'},{e:'🎨',n:'Watercolour Art Set 48pc',v:'CreativeKids',p:'$28.50'},{e:'💻',n:'Coding for Kids — Annual',v:'CodeAcademy Jr.',p:'$120.00'}].map(w=>`
+    <div class="wi-item"><div class="wi-img">${w.e}</div>
+    <div class="wi-info"><div class="wi-name">${w.n}</div><div class="wi-ven">${w.v}${w.w?` · <span style="color:var(--w)">⚠️ ${w.w}</span>`:''}</div></div>
+    <div class="wi-price">${w.p}</div>
+    <div class="wi-acts"><button class="wib wib-a" onclick="approveWi(this)">Approve</button><button class="wib wib-r" onclick="rejectWi(this)">Reject</button></div>
+    </div>`).join('')}
+    </div></div>`;
+  if(p==='market')return`
+    <div class="ph"><div><div class="ptitle">ESA Marketplace</div><div class="psub">Approved products from verified ESA vendors</div></div></div>
+    <div class="pgrid">${[{e:'📐',n:'Math Bundle Gr.7',v:'Bright Academy',p:'$280.00'},{e:'🔬',n:'Science Lab Kit',v:'ScienceHub',p:'$89.99'},{e:'📖',n:'Reading Programme',v:'ReadRight',p:'$120.00'},{e:'💻',n:'Coding Annual',v:'CodeAcademy Jr.',p:'$120.00'},{e:'🎹',n:'Piano Lessons 10-pk',v:'HarmonyMusic',p:'$350.00'},{e:'🧠',n:'OT Therapy Pack',v:'Spectrum Therapy',p:'$600.00'},{e:'📝',n:'Essay Tutoring',v:'Reed Tutors',p:'$450.00'},{e:'🎨',n:'Visual Arts Kit',v:'CreativeKids',p:'$78.50'}].map(pr=>`<div class="pcard"><div class="pimg">${pr.e}</div><div class="pbdy"><div class="pname">${pr.n}</div><div class="pven">${pr.v}</div><div style="display:flex;align-items:center;justify-content:space-between"><div class="pprice">${pr.p}</div><button class="pbtn pbp" style="padding:4px 10px;font-size:10px">Add to cart</button></div></div></div>`).join('')}</div>`;
+  if(p==='claims')return`
+    <div class="ph"><div><div class="ptitle">Claims & Reimbursements</div><div class="psub">Submit receipts for out-of-pocket ESA expenses</div></div><button class="pbtn pbp"><i class="ti ti-plus"></i>New claim</button></div>
+    <div class="kgrid">${kpi('Pending','2','Awaiting review','kc-a')}${kpi('Approved YTD','$1,340','Released to wallet','kc-g')}${kpi('Rejected','1','See details below','kc-r')}${kpi('In Dispute','0','No open disputes','kc-b')}</div>
+    ${[{id:'#CLM-8823',n:'Science Workbooks x3',d:'May 25',amt:'$95.00',ai:'97%',s:'Pending',sc:'pa'},{id:'#CLM-8821',n:'Art Supply Receipts',d:'May 22',amt:'$234.00',ai:'99%',s:'Approved',sc:'pg'},{id:'#CLM-8818',n:'Tutoring Receipts April',d:'May 18',amt:'$180.00',ai:'95%',s:'Approved',sc:'pg'},{id:'#CLM-8810',n:'Gaming Controller',d:'May 15',amt:'$55.00',ai:'89%',s:'Rejected',sc:'pr',r:'Not an approved category'}].map(c=>`
+    <div class="claim-row"><div class="claim-ico"><i class="ti ti-receipt" style="font-size:18px;color:var(--p500)"></i></div>
+    <div class="claim-info"><div class="claim-name">${c.n}</div><div class="claim-meta">${c.id} · ${c.d} · AI Score: ${c.ai}${c.r?` · <span style="color:var(--d)">❌ ${c.r}</span>`:''}</div></div>
+    <div class="claim-amt">${c.amt}</div>${pill(c.s,c.sc)}</div>`).join('')}`;
+  return fallback(p);
+}
+
+function renderSuperAdmin(p){return`
+  <div class="ph"><div><div class="ptitle">Platform Overview</div><div class="psub">Cross-state visibility across all programs — May 25, 2026</div></div><button class="pbtn pbg"><i class="ti ti-download"></i>Export report</button></div>
+  <div class="kgrid">${kpi('Total participants','12,847','↑ 341 this month','kc-p')}${kpi('Disbursed YTD','$48.3M','Across 4 states','kc-g')}${kpi('Active vendors','1,204','18 pending approval','kc-a')}${kpi('Open overrides','7','Require sign-off','kc-r')}${kpi('Compliance flags','23','This week','kc-r')}${kpi('Platform uptime','99.8%','Last 30 days','kc-g')}</div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ct">Disbursement by state</div></div><div class="cb">${prow('Florida',88,'$18.9M')}${prow('Alabama',67,'$14.2M','var(--p600)')}${prow('Arizona',43,'$9.1M','var(--p900)')}${prow('Nevada',29,'$6.1M','#7F77DD')}</div></div>
+    <div class="card"><div class="ch"><div class="ct">Spend by category</div></div><div class="cb">${prow('Curriculum',72,'42%')}${prow('Tutoring',48,'28%','var(--p600)')}${prow('Technology',26,'15%','var(--p900)')}${prow('Therapy',17,'10%','#7F77DD')}</div></div>
+  </div>
+  <div class="card"><div class="ch"><div class="ct">Recent system activity</div></div><div class="cb" style="padding:8px 14px">
+    ${act('Transaction override','Order #4821 rejected — category mismatch (gadgets vs curriculum)','var(--d)','2m ago')}
+    ${act('Program rule updated','Alabama — therapy threshold raised $1,500 → $2,500','var(--w)','1h ago')}
+    ${act('New Regional Coordinator','Nevada Region 3 — Patricia Okafor added','var(--s)','3h ago')}
+    ${act('Compliance flags raised','23 new flags — Florida category limits exceeded','var(--d)','Today')}
+    ${act('Monthly ACH batch complete','$4.1M released to 1,842 participant wallets','var(--s)','Yesterday')}
+  </div></div>`}
+
+function renderGrants(p){return`
+  <div class="ph"><div><div class="ptitle">Grants Admin Dashboard</div><div class="psub">Fund releases, manual audits, and payout matrix — May 25, 2026</div></div></div>
+  <div class="kgrid">${kpi('Pending approvals','14','Require action today','kc-r')}${kpi('Funds encumbered','$382K','On hold pending review','kc-a')}${kpi('Released this week','$1.4M','62 transactions','kc-g')}${kpi('Manual audits open','8','Above $500 threshold','kc-a')}</div>
+  <div class="card"><div class="ch"><div class="ct">Pending disbursement queue</div><button class="pbtn pbg" style="font-size:11px;padding:5px 12px">Approve all ready</button></div>
+  <table class="tbl"><thead><tr><th>Beneficiary</th><th>Amount</th><th>Type</th><th>Threshold</th><th>Status</th><th>Action</th></tr></thead><tbody>
+  ${[['Smith, J.','$1,200','Marketplace','EXCEEDED','Pending','pa'],['Alvarez, M.','$850','Reimbursement','OK','Pending','pa'],['Chen, L.','$2,100','Marketplace','EXCEEDED','Audit Required','pr'],['Torres, R.','$450','DirectPay','OK','Ready','pg'],['Williams, A.','$700','Reimbursement','OK','Ready','pg'],['Patel, S.','$1,800','Marketplace','EXCEEDED','Audit Required','pr']].map(r=>`<tr><td class="tname">${r[0]}</td><td class="tamt">${r[1]}</td><td>${r[2]}</td><td>${pill(r[3],r[3]==='OK'?'pg':'pr')}</td><td>${pill(r[4],r[5])}</td><td><div style="display:flex;gap:5px"><button class="pbtn pbp" style="font-size:10px;padding:3px 10px">Release</button><button class="pbtn" style="font-size:10px;padding:3px 10px">Hold</button></div></td></tr>`).join('')}
+  </tbody></table></div>
+  <div class="card"><div class="ch"><div class="ct">Payout matrix — daily ACH cycle</div></div><div class="cb">
+  <div class="flow-strip">${['2AM Timer','Compile Settlement','Generate ACH File','Execute ACH Transfer','Clearing Window 1–3d','Bank Status Check','Post to Ledger','Disburse to Accounts','Update 1099 Log','Daily Reconciliation'].map((s,i)=>`<span class="fn ${i===0?'fa':i<4?'fd':''}">${s}</span>${i<9?'<span class="farr"><i class="ti ti-arrow-right"></i></span>':''}`).join('')}</div>
+  <p style="font-size:10px;color:var(--t3);margin-top:8px">Source: Payout Matrix BPMN — Bank generates ACH from settlement cue; 1–3 day clearing window; rollback on failure</p>
+  </div></div>`}
+
+function renderClaims(p){return`
+  <div class="ph"><div><div class="ptitle">Claims Reviewer Dashboard</div><div class="psub">Review and action reimbursement requests — May 25, 2026</div></div></div>
+  <div class="kgrid">${kpi('In queue','47','Awaiting review','kc-a')}${kpi('Approved today','23','$18,400 released','kc-g')}${kpi('Rejected today','6','Notified with reasons','kc-r')}${kpi('Fraud flags','3','AI-detected','kc-r')}${kpi('Disputes open','5','Avg age 4.2 days','kc-a')}${kpi('AI confidence avg','88%','OCR accuracy','kc-g')}</div>
+  <div class="card"><div class="ch"><div class="ct">My assigned queue</div><button class="pbtn pbg" style="font-size:11px;padding:5px 12px">View all 47 →</button></div>
+  <table class="tbl"><thead><tr><th>Claim</th><th>Beneficiary</th><th>Amount</th><th>AI score</th><th>Status</th><th>Action</th></tr></thead><tbody>
+  ${[['#CLM-8821','Davis, M.','$234','97%','Pending','pa'],['#CLM-8819','Okafor, P.','$890','71%','Low Confidence','pr'],['#CLM-8817','Kim, J.','$120','DUP','Fraud Flagged','pr'],['#CLM-8814','Torres, R.','$1,450','92%','Pending','pa'],['#CLM-8810','Singh, A.','$67','99%','Ready','pg']].map(r=>`<tr><td class="tid">${r[0]}</td><td class="tname">${r[1]}</td><td class="tamt">${r[2]}</td><td>${pill(r[3],r[3]==='DUP'?'pr':'pb2')}</td><td>${pill(r[4],r[5])}</td><td><div style="display:flex;gap:5px"><button class="pbtn pbp" style="font-size:10px;padding:3px 10px">Approve</button><button class="pbtn" style="font-size:10px;padding:3px 10px;color:var(--d);border-color:#fecaca">Reject</button></div></td></tr>`).join('')}
+  </tbody></table></div>
+  <div class="card"><div class="ch"><div class="ct">Reimbursement claims — process flow</div></div><div class="cb">
+  <div class="flow-strip">${['Parent submits claim','OCR checks receipt','AI checks duplicates','Fraud detected?','Flag & decline','Human audit','Approved / rejected?','Open dispute','Process funds','Notify parent'].map((s,i)=>`<span class="fn ${i===2||i===3?'fa':i<5?'fd':''}">${s}</span>${i<9?'<span class="farr"><i class="ti ti-arrow-right"></i></span>':''}`).join('')}</div>
+  </div></div>`}
+
+function renderCompliance(p){return`
+  <div class="ph"><div><div class="ptitle">Compliance Auditor <span style="font-size:13px;font-weight:400;color:var(--t3)">— read only</span></div><div class="psub">View audit trails and flag suspicious activity. Cannot approve or modify.</div></div><button class="pbtn pbg"><i class="ti ti-download"></i>Export audit trail</button></div>
+  <div class="kgrid">${kpi('Compliance score','94%','Platform average','kc-g')}${kpi('Flags this week','23','Awaiting escalation','kc-r')}${kpi('Audit exports','8','This month','kc-b')}${kpi('Blocked purchases','11','This month','kc-r')}</div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ct">Compliance score by state</div></div><div class="cb">${prow('Alabama',97,'97%','var(--s)')}${prow('Arizona',96,'96%','var(--s)')}${prow('Florida',91,'91%','var(--w)')}${prow('Nevada',88,'88%','var(--d)')}</div></div>
+    <div class="card"><div class="ch"><div class="ct">Recent compliance flags</div></div><div class="cb" style="padding:8px 14px">
+      ${act('Electronics purchase blocked','Smith, J. — $340 gadget vs curriculum — FL','var(--d)','')}
+      ${act('Luxury apparel blocked','Alvarez, M. — $890 — unapproved category — AL','var(--d)','')}
+      ${act('Gift cards prohibited','Williams, A. — $450 — prohibited item — FL','var(--d)','')}
+      ${act('Gaming software flagged','Chen, L. — $120 — borderline education — AZ','var(--w)','')}
+    </div></div>
+  </div>
+  <div class="card"><div class="ch"><div class="ct">Suspicious transactions — read only</div></div>
+  <table class="tbl"><thead><tr><th>Flag ID</th><th>Account</th><th>Amount</th><th>Attempted category</th><th>Approved category</th><th>State</th><th>Type</th></tr></thead><tbody>
+  ${[['#FLG-441','Smith, J.','$340','Consumer Electronics','Technology / Education','FL','CATEGORY'],['#FLG-438','Alvarez, M.','$890','Luxury Apparel','Curriculum / Books','AL','CATEGORY'],['#FLG-435','Chen, L.','$120','Gaming Software','Software / Education','AZ','RESTRICTED'],['#FLG-430','Williams, A.','$450','Gift Cards','Any Approved','FL','PROHIBITED']].map(r=>`<tr><td class="tid">${r[0]}</td><td class="tname">${r[1]}</td><td class="tamt">${r[2]}</td><td style="color:var(--d)">${r[3]}</td><td style="color:var(--s)">${r[4]}</td><td>${r[5]}</td><td>${pill(r[6],'pa')}</td></tr>`).join('')}
+  </tbody></table></div>`}
+
+function renderVendorMgr(p){return`
+  <div class="ph"><div><div class="ptitle">Vendor Approval Manager</div><div class="psub">Final decision-maker on vendor applications</div></div></div>
+  <div class="kgrid">${kpi('Pending decisions','18','Awaiting VAM action','kc-a')}${kpi('Approved this month','34','New active vendors','kc-g')}${kpi('Rejected','7','With justification sent','kc-r')}${kpi('KYC failures','4','This batch','kc-r')}</div>
+  <div class="card"><div class="ch"><div class="ct">Vendor application pipeline</div></div>
+  <table class="tbl"><thead><tr><th>Vendor name</th><th>Category</th><th>KYC</th><th>2FA</th><th>VOS decision</th><th>VAM decision</th><th>Action</th></tr></thead><tbody>
+  ${[['Bright Academy LLC','Curriculum','PASS','Yes','Approved','Pending','pa'],['TechLearn Solutions','Technology','PASS','Yes','Approved','Pending','pa'],['Homeschool Collective','Co-op','FLAGGED','Yes','Review','On Hold','pr'],['Reed Tutoring Inc.','Tutoring','FAIL','No','Rejected','Rejected','pr'],['Spectrum Therapy Svcs','Therapy','PASS','Yes','Approved','Approved','pg']].map(r=>`<tr><td class="tname">${r[0]}</td><td>${pill(r[1],'pb2')}</td><td>${pill(r[2],r[2]==='PASS'?'pg':r[2]==='FLAGGED'?'pa':'pr')}</td><td>${pill(r[3],r[3]==='Yes'?'pg':'pr')}</td><td>${pill(r[4],r[4]==='Approved'?'pg':'pa')}</td><td>${pill(r[5],r[6])}</td><td>${r[5]==='Pending'||r[5]==='On Hold'?`<div style="display:flex;gap:5px"><button class="pbtn pbp" style="font-size:10px;padding:3px 10px">Approve</button><button class="pbtn" style="font-size:10px;padding:3px 10px;color:var(--d);border-color:#fecaca">Reject</button></div>`:'<span style="font-size:11px;color:var(--t3)">Decided</span>'}</td></tr>`).join('')}
+  </tbody></table></div>
+  <div class="card"><div class="ch"><div class="ct">Vendor onboarding flow — VAM step highlighted</div></div><div class="cb">
+  <div class="flow-strip">${['Vendor submits + W9','KYC vendor verifies','KYC pass / fail?','VOS reviews','VOS decision','★ VAM final approval','Platform assigns ID','Sync ledger','Send credentials','Onboarding complete'].map((s,i)=>`<span class="fn ${i===5?'fa':i>5?'fd':''}">${s}</span>${i<9?'<span class="farr"><i class="ti ti-arrow-right"></i></span>':''}`).join('')}</div>
+  </div></div>`}
+
+function renderPlatform(p){return`
+  <div class="ph"><div><div class="ptitle">Platform Admin Dashboard</div><div class="psub">System infrastructure, user management, onboarding pipeline</div></div></div>
+  <div class="kgrid">${kpi('System uptime','99.8%','Last 30 days','kc-g')}${kpi('Active users','15,203','Across all roles','kc-p')}${kpi('KYC flags pending','12','Awaiting admin check','kc-a')}${kpi('Security events','2','Today — low severity','kc-r')}${kpi('Activation rate','87%','Wallet onboarding','kc-g')}${kpi('Feature flags','34','Across all programs','kc-b')}</div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ct">Beneficiary onboarding funnel</div></div><div class="cb">${prow('Invited',100,'1,248')}${prow('Email opened',82,'1,023','var(--p600)')}${prow('Profile setup',74,'924','var(--p900)')}${prow('KYC passed',69,'860','#7F77DD')}${prow('Wallet activated',65,'808','var(--s)')}</div></div>
+    <div class="card"><div class="ch"><div class="ct">Security log</div></div><div class="cb" style="padding:8px 14px">
+      ${act('Failed login attempts (3)','Account locked — user: davis_j@gmail','var(--d)','14m ago')}
+      ${act('Unusual access pattern','Role escalation attempt — IP: 192.168.1.44','var(--w)','2h ago')}
+      ${act('Admin password reset','Supervisor approval obtained — MR account','var(--p500)','5h ago')}
+    </div></div>
+  </div>
+  <div class="card"><div class="ch"><div class="ct">Wallet creation & onboarding flow — admin step highlighted</div></div><div class="cb">
+  <div class="flow-strip">${['Grant Admin uploads manifest','De-duplicate profiles','Create ledger per parent','Encumber funds','Generate activation token','Send activation mail','Parent profile setup','KYC vendor verifies','★ Admin checks flagged KYC','Activate balance & release'].map((s,i)=>`<span class="fn ${i===8?'fa':i>8?'fd':''}">${s}</span>${i<9?'<span class="farr"><i class="ti ti-arrow-right"></i></span>':''}`).join('')}</div>
+  </div></div>`}
+
+function renderVendor(p){return`
+  <div class="ph"><div><div class="ptitle">Vendor Dashboard — Bright Academy</div><div class="psub">Revenue, orders, catalog and payment status</div></div><button class="pbtn pbp"><i class="ti ti-plus"></i>Submit invoice</button></div>
+  <div class="kgrid">${kpi('Total earned YTD','$84.2K','From 341 orders','kc-g')}${kpi('Pending payment','$6,800','3 invoices in clearing','kc-a')}${kpi('Active listings','48','12 pending approval','kc-p')}${kpi('Orders this month','67','5 in-transit','kc-b')}</div>
+  <div class="g2">
+    <div class="card"><div class="ch"><div class="ct">Invoice & payment status</div></div>
+    <table class="tbl"><thead><tr><th>Invoice</th><th>Description</th><th>Amount</th><th>ACH ref</th><th>Status</th></tr></thead><tbody>
+    ${[['#INV-2241','Math Curriculum Bundle','$2,400','ACH-44821','Paid','pg'],['#INV-2244','Science Lab Kit x3','$3,100','ACH-44910','Clearing','pa'],['#INV-2246','Reading Programme Annual','$950','—','Submitted','pi'],['#INV-2247','Therapy Resources Kit','$620','—','Submitted','pi']].map(r=>`<tr><td class="tid">${r[0]}</td><td>${r[1]}</td><td class="tamt">${r[2]}</td><td style="font-family:monospace;font-size:11px;color:var(--p500)">${r[3]}</td><td>${pill(r[4],r[5])}</td></tr>`).join('')}
+    </tbody></table></div>
+    <div class="card"><div class="ch"><div class="ct">Incoming orders</div></div><div class="cb" style="padding:8px 14px">
+      ${[{e:'📐',n:'Math Bundle Gr.7 — 2 units',f:'Davis family',s:'Processing',c:'var(--w)'},{e:'📖',n:'Reading Programme',f:'Okafor family',s:'Packed',c:'var(--p500)'},{e:'🔬',n:'Science Lab Kit',f:'Chen family',s:'Shipped',c:'var(--s)'},{e:'💻',n:'Coding Subscription',f:'Torres family',s:'Delivered',c:'var(--s)'}].map(o=>`<div class="act-item"><div style="font-size:22px">${o.e}</div><div style="flex:1"><div class="act-t">${o.n}</div><div class="act-s">${o.f}</div></div><div class="adot" style="background:${o.c};margin-top:6px"></div><div style="font-size:11px;color:var(--t2);font-weight:500">${o.s}</div></div>`).join('')}
+    </div></div>
+  </div>`}
+
+function renderCSR(p){return`
+  <div class="ph"><div><div class="ptitle">Support Dashboard — Marco Rivera</div><div class="psub">Manage tickets, FAQ queries, and access resets</div></div></div>
+  <div class="kgrid">${kpi('Open tickets','31','12 assigned to me','kc-a')}${kpi('Resolved today','18','Avg 4.2 min','kc-g')}${kpi('Escalated','3','To Program Admin','kc-r')}${kpi('FAQ articles created','7','This month','kc-b')}</div>
+  <div class="card"><div class="ch"><div class="ct">Active ticket queue</div></div>
+  <table class="tbl"><thead><tr><th>Ticket</th><th>User</th><th>Category</th><th>Issue</th><th>Priority</th><th>Status</th><th>Action</th></tr></thead><tbody>
+  ${[['#TKT-441','Johnson, P.','Order Tracking','Cannot see tracking for order #4821','HIGH','Open','pa'],['#TKT-438','TechLearn Co.','Invoice Rejected','INV-2244 rejected — reason unclear','HIGH','Escalated','pr'],['#TKT-435','Davis, M.','Portal Access','Cannot login — activation link expired','MED','Reset Pending','pa'],['#TKT-430','Singh, A.','FAQ','Is therapy equipment covered under ESA?','LOW','Resolved','pg'],['#TKT-427','Reed Tutors','Payment','ACH payment delayed beyond 3 days','MED','Open','pa']].map(r=>`<tr><td class="tid">${r[0]}</td><td class="tname">${r[1]}</td><td>${pill(r[2],'pb2')}</td><td style="font-size:11px;max-width:160px">${r[3]}</td><td>${pill(r[4],r[4]==='HIGH'?'pr':r[4]==='MED'?'pa':'pgy')}</td><td>${pill(r[5],r[6])}</td><td><button class="pbtn" style="font-size:10px;padding:3px 10px">Open</button></td></tr>`).join('')}
+  </tbody></table></div>
+  <div class="card"><div class="ch"><div class="ct">FAQ flow — CSR steps highlighted</div></div><div class="cb">
+  <div class="flow-strip">${['User posts query','Platform queues','Analyze keywords','Duplicate?','Generate from history','★ CSR gathers answers','★ CSR posts to FAQ','Platform sends mail','User receives response','FAQ record updated'].map((s,i)=>`<span class="fn ${i===5||i===6?'fa':i>6?'fd':''}">${s}</span>${i<9?'<span class="farr"><i class="ti ti-arrow-right"></i></span>':''}`).join('')}</div>
+  </div></div>`}
+
+function fallback(p){return`<div style="text-align:center;padding:60px 20px"><i class="ti ti-sparkles" style="font-size:48px;color:var(--p300)"></i><div style="font-size:18px;font-weight:600;color:var(--t1);margin:14px 0 8px">${p.charAt(0).toUpperCase()+p.slice(1)}</div><p style="color:var(--t3);font-size:13px;max-width:280px;margin:0 auto">Fully functional in the production build. Switch roles above to explore all platform views.</p><button class="pbtn pbp" style="margin-top:18px" onclick="navigate('dash')"><i class="ti ti-arrow-left"></i> Back to dashboard</button></div>`}
+
+function renderRoleGrid(){document.getElementById('roleGrid').innerHTML=ROLES.map(r=>`<div class="ropt${r.id===role?' sel':''}" onclick="applyRole('${r.id}')"><div class="ropt-icon"><i class="ti ${r.icon}" style="font-size:22px;color:var(--p500)"></i></div><div class="ropt-name">${r.name}</div><div class="ropt-ent">${r.ent}</div></div>`).join('')}
+function openModal(){renderRoleGrid();document.getElementById('modalOverlay').classList.add('open')}
+function closeMO(e){if(e.target===document.getElementById('modalOverlay'))document.getElementById('modalOverlay').classList.remove('open')}
+function toggleNotif(){nbO=!nbO;document.getElementById('nbPanel').classList.toggle('op',nbO);if(nbO)document.addEventListener('click',function h(e){if(!document.getElementById('nbPanel').contains(e.target)){nbO=false;document.getElementById('nbPanel').classList.remove('op');document.removeEventListener('click',h)}},true)}
+function approveWi(btn){const it=btn.closest('.wi-item');it.style.background='#f0fdf4';it.querySelector('.wi-acts').innerHTML=pill('Approved ✓','pg')}
+function rejectWi(btn){const it=btn.closest('.wi-item');it.style.opacity='.45';it.querySelector('.wi-acts').innerHTML=pill('Rejected','pr')}
+
+init();
+</script>
+</body>
+</html>
